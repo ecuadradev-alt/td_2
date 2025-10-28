@@ -1,37 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Video } from 'expo-av';
 import { useRouter } from 'expo-router';
+import { Asset } from 'expo-asset';
 
 const VideoIntro = () => {
   const router = useRouter();
-  const [isLoaded, setIsLoaded] = useState(false);
+  const videoRef = useRef(null);
+  const [videoUri, setVideoUri] = useState(null);
 
   useEffect(() => {
-    if (isLoaded) {
+    // Cargar el asset local
+    const loadVideo = async () => {
+      const asset = Asset.fromModule(require('../../assets/animacion-intro.mp4'));
+      await asset.downloadAsync(); // asegura que está disponible
+      setVideoUri(asset.localUri || asset.uri);
+    };
+
+    loadVideo();
+  }, []);
+
+  useEffect(() => {
+    if (videoUri) {
       const timeout = setTimeout(() => {
         router.replace('/intro/v1');
       }, 5000);
       return () => clearTimeout(timeout);
     }
-  }, [isLoaded]);
+  }, [videoUri]);
 
   return (
     <View style={styles.container}>
-      <Video
-        source={require('../../assets/animacion-intro.mp4')} // asegúrate que esta ruta es correcta
-        style={styles.video}
-        resizeMode="cover"
-        isLooping
-        shouldPlay
-        onLoad={() => setIsLoaded(true)}
-      />
+      {videoUri && (
+        <Video
+          ref={videoRef}
+          source={{ uri: videoUri }}
+          style={styles.video}
+          resizeMode="cover"
+          shouldPlay
+          isLooping
+          useNativeControls={false}
+        />
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, backgroundColor: 'black' },
   video: { width: '100%', height: '100%' },
 });
 

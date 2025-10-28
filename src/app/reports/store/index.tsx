@@ -1,5 +1,7 @@
 import React from "react";
-import { View, FlatList, StyleSheet, SafeAreaView } from "react-native";
+import { View, FlatList, StyleSheet,} from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 import HeroSlider from "../../components/HeroSlider";
 import LatestNews from "../../components/LatestNews";
 import Carousel from "../../components/Carousel";

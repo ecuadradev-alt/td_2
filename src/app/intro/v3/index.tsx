@@ -27,12 +27,12 @@ export default function FirstView() {
     <View style={styles.container}>
       <View style={styles.card}>
         <View style={styles.header}>
-          {/* <TouchableOpacity
+          <TouchableOpacity
             style={styles.skipBadge}
             onPress={() => router.push("/auth/auth-intro")}
           >
             <Text style={styles.skipText}>Saltar</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
 
         <Image
@@ -68,7 +68,7 @@ export default function FirstView() {
 
           <TouchableOpacity
             style={styles.playButton}
-            onPress={() => router.push("/intro/v4")}
+            onPress={() => router.push("/auth/auth-intro")}
           >
             <Svg width={20} height={20} viewBox="0 0 100 100">
               <Polygon points="40,30 70,50 40,70" fill="#fff" />

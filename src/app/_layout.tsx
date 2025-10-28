@@ -133,10 +133,7 @@ export default function RootLayout(): JSX.Element {
               name="intro/v3"
               options={{ headerShown: false }}
             />
-              <Stack.Screen
-              name="intro/v4"
-              options={{ headerShown: false }}
-            />                
+                     
 
         <Stack.Screen
               name="config/asociation"

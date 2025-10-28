@@ -12,7 +12,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   FlatList,
-  BlurView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
@@ -22,10 +21,10 @@ const { width } = Dimensions.get("window");
 
 export default function HolaEduardoScreen() {
   const carouselItems = [
-    { id: "1", title: "Consulta Virtual", image: "https://picsum.photos/400/200?1", href: "/lists/doctor" },
-    { id: "2", title: "Salud Mental", image: "https://picsum.photos/400/200?2", href: "/lists/store" },
-    { id: "3", title: "Ejercicio Diario", image: "https://picsum.photos/400/200?3", href: "/lists/asociation" },
-    { id: "4", title: "Asesoría Legal", image: "https://picsum.photos/400/200?4", href: "/lists/lawyer" },
+    { id: "1", title: "Doctor", image: require("../../../../assets/home/doctor.png"), href: "/lists/doctor" },
+    { id: "2", title: "Tienda", image: require("../../../../assets/home/store.png"), href: "/lists/store" },
+    { id: "3", title: "Asociación", image: require("../../../../assets/home/asociation.png"), href: "/lists/asociation" },
+    { id: "4", title: "Abogado", image: require("../../../../assets/home/lawyer.png"), href: "/lists/lawyer" },
   ];
 
   const initialNews = [
@@ -44,11 +43,13 @@ export default function HolaEduardoScreen() {
     setActiveNewsId(id);
     setModalVisible(true);
   };
+
   const closeComments = () => {
     setCommentText("");
     setActiveNewsId(null);
     setModalVisible(false);
   };
+
   const addComment = () => {
     if (!commentText.trim()) return;
     const newComment = { id: `${activeNewsId}-${Date.now()}`, text: commentText.trim(), date: new Date().toLocaleString() };
@@ -66,7 +67,7 @@ export default function HolaEduardoScreen() {
   return (
     <View style={styles.outerContainer}>
       {/* HEADER */}
-      <LinearGradient colors={["#007AFF", "#00B2FF"]} start={[0, 0]} end={[1, 1]} style={styles.header}>
+      <LinearGradient colors={["#00B272", "#00994C"]} start={[0, 0]} end={[1, 1]} style={styles.header}>
         <View>
           <Text style={styles.title}>Hola, Eduardo 👋</Text>
           <Text style={styles.subtitle}>Bienvenido de nuevo</Text>
@@ -76,16 +77,16 @@ export default function HolaEduardoScreen() {
 
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         {/* CARRUSEL */}
-        <Text style={styles.sectionTitle}>Recomendados</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 12 }}>
+        <Text style={styles.sectionTitle}>A quien desea visitar hoy ?</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16 }}>
           {carouselItems.map((item) => (
             <Link key={item.id} href={item.href} asChild>
               <TouchableOpacity activeOpacity={0.85}>
                 <View style={styles.card}>
-                  <Image source={{ uri: item.image }} style={styles.cardImage} />
-                  <LinearGradient colors={["rgba(0,0,0,0.3)", "rgba(0,0,0,0.7)"]} style={styles.overlay}>
+                  <Image source={item.image} style={styles.cardImage} />
+                  <LinearGradient colors={["rgba(0,0,0,0.25)", "rgba(0,0,0,0.6)"]} style={styles.overlay}>
                     <Text style={styles.overlayText}>{item.title}</Text>
-                    <Ionicons name="arrow-forward-circle" size={22} color="#fff" />
+                    <Ionicons name="arrow-forward-circle" size={24} color="#fff" />
                   </LinearGradient>
                 </View>
               </TouchableOpacity>
@@ -98,7 +99,7 @@ export default function HolaEduardoScreen() {
           <Text style={styles.sectionTitle}>Noticias</Text>
           <TouchableOpacity style={styles.verMasRow}>
             <Text style={styles.verMasText}>Ver más</Text>
-            <Ionicons name="chevron-forward" size={18} color="#007AFF" />
+            <Ionicons name="chevron-forward" size={18} color="#00B272" />
           </TouchableOpacity>
         </View>
 
@@ -112,15 +113,15 @@ export default function HolaEduardoScreen() {
 
             <View style={styles.newsActions}>
               <TouchableOpacity style={styles.actionButton}>
-                <Ionicons name="share-social-outline" size={20} color="#007AFF" />
+                <Ionicons name="share-social-outline" size={20} color="#00B272" />
                 <Text style={styles.actionText}>Compartir</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton} onPress={() => openComments(item.id)}>
-                <Ionicons name="chatbubble-outline" size={20} color="#007AFF" />
+                <Ionicons name="chatbubble-outline" size={20} color="#00B272" />
                 <Text style={styles.actionText}>Comentar</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton}>
-                <Ionicons name="heart-outline" size={20} color="#007AFF" />
+                <Ionicons name="heart-outline" size={20} color="#00B272" />
                 <Text style={styles.actionText}>Me gusta</Text>
               </TouchableOpacity>
             </View>
@@ -169,9 +170,9 @@ export default function HolaEduardoScreen() {
 }
 
 const styles = StyleSheet.create({
-  outerContainer: { flex: 1, backgroundColor: "#f8faff" },
+  outerContainer: { flex: 1, backgroundColor: "#f0f9f4" },
   header: {
-    paddingTop: 60,
+    paddingTop: 20,
     paddingHorizontal: 20,
     paddingBottom: 24,
     flexDirection: "row",
@@ -181,21 +182,25 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
   },
   title: { color: "#fff", fontSize: 22, fontWeight: "700" },
-  subtitle: { color: "#e6f7ff", fontSize: 14, marginTop: 2 },
+  subtitle: { color: "#e6f9ef", fontSize: 14, marginTop: 2 },
   avatar: { width: 48, height: 48, borderRadius: 24, borderWidth: 2, borderColor: "#fff" },
   sectionHeaderRow: { flexDirection: "row", justifyContent: "space-between", marginHorizontal: 16, alignItems: "center" },
-  sectionTitle: { fontSize: 18, fontWeight: "700", color: "#222", marginVertical: 10 },
+  sectionTitle: { fontSize: 18,marginLeft:20, fontWeight: "700", color: "#222", marginVertical: 10 },
   verMasRow: { flexDirection: "row", alignItems: "center" },
-  verMasText: { fontSize: 14, fontWeight: "500", color: "#007AFF" },
+  verMasText: { fontSize: 14, fontWeight: "500", color: "#00B272" },
 
   card: {
-    width: width * 0.7,
+    width: width * 0.45,
     height: 190,
-    borderRadius: 16,
-    marginRight: 14,
+    borderRadius: 18,
+    marginRight: 18,
     overflow: "hidden",
-    elevation: 4,
     backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 5,
   },
   cardImage: { width: "100%", height: "100%" },
   overlay: {
@@ -207,75 +212,41 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 12,
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
   },
-  overlayText: { color: "#fff", fontSize: 16, fontWeight: "600" },
+  overlayText: { color: "#fff", fontSize: 16, fontWeight: "700" },
 
+  container: { flex: 1 },
   newsItem: {
-    backgroundColor: "#fff",
     marginHorizontal: 16,
-    marginBottom: 14,
+    marginVertical: 10,
     padding: 14,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
+    backgroundColor: "#fff",
+    borderRadius: 14,
     elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
   newsHeader: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
-  newsAvatar: { width: 36, height: 36, borderRadius: 18, marginRight: 10 },
-  newsName: { fontSize: 15, fontWeight: "600", color: "#333" },
-  newsDescription: { fontSize: 14, color: "#555", marginBottom: 10, lineHeight: 20 },
-  newsActions: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    borderTopWidth: 1,
-    borderTopColor: "#eee",
-    paddingTop: 8,
-  },
+  newsAvatar: { width: 40, height: 40, borderRadius: 20, marginRight: 10 },
+  newsName: { fontWeight: "700", fontSize: 16 },
+  newsDescription: { fontSize: 14, color: "#555", marginBottom: 10 },
+  newsActions: { flexDirection: "row", justifyContent: "space-around", borderTopWidth: 1, borderTopColor: "#eee", paddingTop: 8 },
   actionButton: { flexDirection: "row", alignItems: "center" },
-  actionText: { marginLeft: 6, fontSize: 14, color: "#007AFF" },
+  actionText: { marginLeft: 4, color: "#00B272", fontWeight: "500" },
 
-  // MODAL
-  modalBackdrop: { flex: 1, backgroundColor: "rgba(0,0,0,0.4)", justifyContent: "flex-end" },
-  modalContainer: {
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 16,
-  },
-  modalHeader: { flexDirection: "row", justifyContent: "center", alignItems: "center", paddingBottom: 10 },
-  modalTitle: { fontSize: 18, fontWeight: "700", color: "#333" },
-  modalClose: { position: "absolute", right: 10 },
-  modalContent: { maxHeight: 320, marginBottom: 10 },
-  noComments: { alignItems: "center", paddingVertical: 20 },
-  inputRow: { flexDirection: "row", alignItems: "flex-end" },
-  input: {
-    flex: 1,
-    minHeight: 44,
-    maxHeight: 120,
-    borderRadius: 20,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    backgroundColor: "#f1f1f1",
-    marginRight: 8,
-  },
-  sendButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: "#007AFF",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  commentBubble: {
-    backgroundColor: "#f1f5ff",
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 8,
-  },
-  commentText: { fontSize: 14, color: "#222" },
-  commentDate: { fontSize: 12, color: "#888", marginTop: 4, textAlign: "right" },
+  modalBackdrop: { flex: 1, backgroundColor: "rgba(0,0,0,0.5)", justifyContent: "flex-end" },
+  modalContainer: { backgroundColor: "#fff", maxHeight: "80%", borderTopLeftRadius: 16, borderTopRightRadius: 16, padding: 16 },
+  modalHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 12 },
+  modalTitle: { fontSize: 18, fontWeight: "700" },
+  modalClose: { padding: 4 },
+  modalContent: { flex: 1, marginBottom: 12 },
+  noComments: { alignItems: "center", justifyContent: "center", flex: 1 },
+  inputRow: { flexDirection: "row", alignItems: "center" },
+  input: { flex: 1, borderWidth: 1, borderColor: "#ddd", borderRadius: 20, paddingHorizontal: 12, paddingVertical: 8, marginRight: 8, maxHeight: 100 },
+  sendButton: { backgroundColor: "#00B272", padding: 10, borderRadius: 20 },
+  commentBubble: { padding: 8, borderRadius: 12, backgroundColor: "#f1f1f1", marginBottom: 6 },
+  commentText: { fontSize: 14, color: "#333" },
+  commentDate: { fontSize: 10, color: "#888", marginTop: 2 },
 });

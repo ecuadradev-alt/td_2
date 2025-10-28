@@ -56,8 +56,8 @@ const ExploreScreen = ({ navigation }) => {
       <Text style={styles.sectionTitle}>Tiendas cerca a ti</Text>
       <View style={styles.storesRow}>
         {[
-          { id: 1, name: "Mifarma", img: "https://picsum.photos/200/200?2" },
-          { id: 2, name: "Inkafarma", img: "https://picsum.photos/200/200?3" },
+          { id: 1, name: "Mifarma", img: "https://picsum.photos/400/200?2" },
+          { id: 2, name: "Inkafarma", img: "https://picsum.photos/400/200?3" },
         ].map((store) => (
           <TouchableOpacity key={store.id} style={styles.storeCard}>
             <Image source={{ uri: store.img }} style={styles.storeImage} />
@@ -131,7 +131,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 3,
   },
-  storeImage: { width: "100%", height: 100, borderRadius: 8 },
+  // 🔹 Imagen más grande y rectangular
+  storeImage: { width: "100%", height: 120, borderRadius: 10 },
   verMas: { color: "#777", fontSize: 12, textAlign: "center", marginTop: 6 },
 });
 

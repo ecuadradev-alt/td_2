@@ -10,12 +10,12 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function DoctoresScreen() {
-  const doctores = [
+export default function LawyersScreen() {
+  const lawyers = [
     {
       id: 1,
       nombre: "Jorge Casas",
-      especialidad: "Medicina general",
+      especialidad: "Derecho Civil",
       ciudad: "Lima",
       rating: 4.5,
       foto: "https://i.pravatar.cc/150?img=12",
@@ -23,7 +23,7 @@ export default function DoctoresScreen() {
     {
       id: 2,
       nombre: "Miguel Miranda",
-      especialidad: "Oncólogo",
+      especialidad: "Derecho Penal",
       ciudad: "Arequipa",
       rating: 4.5,
       foto: "https://i.pravatar.cc/150?img=15",
@@ -31,7 +31,7 @@ export default function DoctoresScreen() {
     {
       id: 3,
       nombre: "Diana Salas",
-      especialidad: "Cardióloga",
+      especialidad: "Derecho Laboral",
       ciudad: "Lima",
       rating: 4.5,
       foto: "https://i.pravatar.cc/150?img=20",
@@ -44,7 +44,7 @@ export default function DoctoresScreen() {
       <View style={styles.header}>
         <View>
           <Text style={styles.hola}>Hola Camilo</Text>
-          <Text style={styles.titulo}>Busquemos{"\n"}un Doctor</Text>
+          <Text style={styles.titulo}>Busquemos{"\n"}un Abogado</Text>
         </View>
         <Image
           source={{ uri: "https://i.pravatar.cc/100?img=68" }}
@@ -62,31 +62,31 @@ export default function DoctoresScreen() {
         />
         <TextInput
           style={styles.searchInput}
-          placeholder="Buscar Doctores"
+          placeholder="Buscar Abogados"
           placeholderTextColor="#999"
         />
       </View>
 
       {/* Título sección */}
-      <Text style={styles.sectionTitle}>Doctores populares</Text>
+      <Text style={styles.sectionTitle}>Abogados populares</Text>
 
-      {/* Lista de doctores */}
-      {doctores.map((doctor) => (
+      {/* Lista de abogados */}
+      {lawyers.map((lawyer) => (
         <TouchableOpacity
-          key={doctor.id}
+          key={lawyer.id}
           style={styles.card}
           activeOpacity={0.9}
-          onPress={() => console.log("Ver perfil de", doctor.nombre)}
+          onPress={() => console.log("Ver perfil de", lawyer.nombre)}
         >
-          <Image source={{ uri: doctor.foto }} style={styles.doctorImage} />
+          <Image source={{ uri: lawyer.foto }} style={styles.lawyerImage} />
           <View style={styles.cardInfo}>
-            <Text style={styles.doctorName}>{doctor.nombre}</Text>
-            <Text style={styles.doctorSpecialty}>{doctor.especialidad}</Text>
-            <Text style={styles.doctorCity}>{doctor.ciudad}</Text>
+            <Text style={styles.lawyerName}>{lawyer.nombre}</Text>
+            <Text style={styles.lawyerSpecialty}>{lawyer.especialidad}</Text>
+            <Text style={styles.lawyerCity}>{lawyer.ciudad}</Text>
           </View>
           <View style={styles.rating}>
             <Ionicons name="star" size={16} color="#FFD700" />
-            <Text style={styles.ratingText}>{doctor.rating}</Text>
+            <Text style={styles.ratingText}>{lawyer.rating}</Text>
           </View>
         </TouchableOpacity>
       ))}
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#eaeaea",
   },
-  doctorImage: {
+  lawyerImage: {
     width: 70,
     height: 70,
     borderRadius: 14,
@@ -171,17 +171,17 @@ const styles = StyleSheet.create({
   cardInfo: {
     flex: 1,
   },
-  doctorName: {
+  lawyerName: {
     fontSize: 16,
     fontWeight: "700",
     color: "#222",
   },
-  doctorSpecialty: {
+  lawyerSpecialty: {
     fontSize: 14,
     color: "#555",
     marginTop: 2,
   },
-  doctorCity: {
+  lawyerCity: {
     fontSize: 13,
     color: "#777",
     marginTop: 4,
