@@ -45,7 +45,7 @@ export default function LawyerDetailScreen() {
         <View style={styles.header}>
          <Image
             source={require("../../../../assets/lawyer/profile.jpg")}
-            style={{ width: '100%', height: 300 }}
+            style={{ width: '80%', height: 300 }}
           />
 
           <Text style={styles.name}>Lic. Carlos Herrera</Text>

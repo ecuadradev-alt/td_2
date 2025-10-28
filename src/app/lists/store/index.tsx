@@ -1,10 +1,10 @@
 import React from "react";
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import ExploreScreen from "../../components/ExploreStoreScreen";
+import ExploreScreen from "../../components/ExploreScreen";
 import SearchResultsScreen from "../../components/SearchResultsScreen";
 
-const DoctorScreen: React.FC = () => {
+const StoreScreen: React.FC = () => {
   const sections = [
     { id: "explore", type: "explore" },
     { id: "divider", type: "divider" },
@@ -82,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DoctorScreen;
+export default StoreScreen;

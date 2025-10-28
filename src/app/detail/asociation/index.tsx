@@ -14,27 +14,49 @@ export default function AsociationDetailScreen() {
   const [activeTab, setActiveTab] = useState("sobre");
   const [modalVisible, setModalVisible] = useState(false);
 
+  // 🔸 Imágenes locales de servicios
   const servicios = [
     {
       id: "1",
       title: "Asesoría legal integral",
       price: "S/ 250",
       description: "Consulta completa sobre procesos legales cannábicos.",
-      image: "https://picsum.photos/200/150?random=1",
+      image: require("../../../../assets/store/1.jpg"),
     },
     {
       id: "2",
       title: "Gestión de licencias",
       price: "S/ 480",
       description: "Acompañamiento en la obtención de permisos y licencias.",
-      image: "https://picsum.photos/200/150?random=2",
+      image: require("../../../../assets/store/2.webp"),
     },
     {
       id: "3",
       title: "Defensa legal",
       price: "S/ 750",
       description: "Representación en casos relacionados al uso del cannabis.",
-      image: "https://picsum.photos/200/150?random=3",
+      image: require("../../../../assets/store/3.webp"),
+    },
+    {
+      id: "4",
+      title: "Gestión de licencias",
+      price: "S/ 480",
+      description: "Acompañamiento en la obtención de permisos y licencias.",
+      image: require("../../../../assets/store/4.webp"),
+    },
+    {
+      id: "5",
+      title: "Defensa legal",
+      price: "S/ 750",
+      description: "Representación en casos relacionados al uso del cannabis.",
+      image: require("../../../../assets/store/5.webp"),
+    },
+     {
+      id: "6",
+      title: "Defensa legal",
+      price: "S/ 750",
+      description: "Representación en casos relacionados al uso del cannabis.",
+      image: require("../../../../assets/store/6.jpg"),
     },
   ];
 
@@ -43,17 +65,16 @@ export default function AsociationDetailScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-         <Image
-          source={require("../../../../assets/doctor/profile.jpg")}
-          style={{ width: 400, height: 300 }}
-        />
-
-          <Text style={styles.name}>Lic. Carlos Herrera</Text>
+          <Image
+            source={require("../../../../assets/asociation/asociacion.jpg")}
+            style={{ width: 400, height: 300 }}
+          />
+          <Text style={styles.name}>Asociación Cannábica del Perú</Text>
           <Text style={styles.specialty}>
-            Abogado especializado en derecho cannábico
+            Promoviendo la regulación y el uso responsable del cannabis
           </Text>
-          <Text style={styles.subInfo}>C.A.L. 100470</Text>
-          <Text style={styles.location}>Lima</Text>
+          <Text style={styles.subInfo}>Fundada en 2015</Text>
+          <Text style={styles.location}>Lima, Perú</Text>
         </View>
 
         {/* Tabs */}
@@ -74,7 +95,7 @@ export default function AsociationDetailScreen() {
                 ]}
               >
                 {tab === "sobre"
-                  ? "Sobre el Lic."
+                  ? "Sobre la Asociación"
                   : tab === "posts"
                   ? "Posts"
                   : "Feedbacks"}
@@ -87,29 +108,25 @@ export default function AsociationDetailScreen() {
         {activeTab === "sobre" && (
           <View style={styles.tabContent}>
             <View style={styles.ratingContainer}>
-              <Text style={styles.rating}>⭐ 4.5</Text>
-              <Text style={styles.schedule}>🕓 10:00 AM – 5:00 PM</Text>
+              <Text style={styles.rating}>⭐ 4.8</Text>
+              <Text style={styles.schedule}>🕓 9:00 AM – 6:00 PM</Text>
             </View>
 
-            <Text style={styles.sectionTitle}>Experiencia</Text>
+            <Text style={styles.sectionTitle}>Sobre Nosotros</Text>
             <Text style={styles.description}>
-              Con más de 10 años de experiencia, he acompañado a pacientes,
-              asociaciones y emprendedores del sector cannábico en todo tipo de
-              procesos legales: desde la obtención de permisos y licencias,
-              hasta la defensa en derechos relacionados con el uso medicinal y
-              recreativo del cannabis.
+              Somos una organización sin fines de lucro dedicada a la educación,
+              asesoría y defensa del derecho al uso del cannabis medicinal y
+              recreativo en el Perú. Nuestro equipo multidisciplinario trabaja
+              para crear un entorno regulado y seguro.
             </Text>
 
             <Text style={[styles.sectionTitle, { marginTop: 20 }]}>
-              Servicios y productos
+              Servicios y programas
             </Text>
             <View style={styles.servicesRow}>
               {servicios.slice(0, 2).map((item) => (
                 <View key={item.id} style={styles.serviceCard}>
-                  <Image
-                    source={{ uri: item.image }}
-                    style={styles.serviceImage}
-                  />
+                  <Image source={item.image} style={styles.serviceImage} />
                   <Text style={styles.serviceText}>{item.title}</Text>
                 </View>
               ))}
@@ -128,30 +145,27 @@ export default function AsociationDetailScreen() {
           <View style={styles.tabContent}>
             <Text style={styles.sectionTitle}>Publicaciones recientes</Text>
             <Text style={styles.description}>
-              📢 “El cannabis avanza cada día más en el ámbito legal. Mi
-              objetivo es ayudarte a comprender la normativa y usarla a tu
-              favor.”
+              🌱 “Seguimos impulsando el marco legal que permita a los pacientes
+              acceder a tratamientos seguros y de calidad.”
             </Text>
           </View>
         )}
 
         {activeTab === "feedbacks" && (
           <View style={styles.tabContent}>
-            <Text style={styles.sectionTitle}>Opiniones de clientes</Text>
+            <Text style={styles.sectionTitle}>Testimonios</Text>
             <View style={styles.feedbackCard}>
-              <Text style={styles.feedbackUser}>Pedro Gómez ⭐⭐⭐⭐⭐</Text>
+              <Text style={styles.feedbackUser}>María López ⭐⭐⭐⭐⭐</Text>
               <Text style={styles.feedbackText}>
-                El mejor asesor que pude encontrar. Explicó todo con palabras
-                simples y me dio la seguridad que necesitaba para arrancar mi
-                proyecto.
+                Gracias a la asociación pude obtener mi licencia medicinal sin
+                problemas. Excelente acompañamiento.
               </Text>
             </View>
             <View style={styles.feedbackCard}>
-              <Text style={styles.feedbackUser}>Carla Tello ⭐⭐⭐⭐</Text>
+              <Text style={styles.feedbackUser}>José Ramos ⭐⭐⭐⭐</Text>
               <Text style={styles.feedbackText}>
-                Excelente trato humano y mucho conocimiento. Se nota que
-                realmente le importa apoyar el movimiento cannábico desde lo
-                legal.
+                Muy buena atención y conocimiento. Realmente aportan a la
+                comunidad.
               </Text>
             </View>
           </View>
@@ -162,16 +176,13 @@ export default function AsociationDetailScreen() {
       <Modal visible={modalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Todos los productos</Text>
+            <Text style={styles.modalTitle}>Todos los servicios</Text>
             <FlatList
               data={servicios}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <View style={styles.modalItem}>
-                  <Image
-                    source={{ uri: item.image }}
-                    style={styles.modalItemImage}
-                  />
+                  <Image source={item.image} style={styles.modalItemImage} />
                   <View style={{ flex: 1 }}>
                     <Text style={styles.modalItemTitle}>{item.title}</Text>
                     <Text style={styles.modalItemPrice}>{item.price}</Text>
@@ -198,9 +209,8 @@ export default function AsociationDetailScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#FFF" },
   header: { alignItems: "center", marginTop: 20 },
-  profileImage: { width: 180, height: 180, borderRadius: 20 },
   name: { fontSize: 20, fontWeight: "bold", marginTop: 10, color: "#1C1C1C" },
-  specialty: { fontSize: 14, color: "#1C7C54", marginTop: 5 },
+  specialty: { fontSize: 14, color: "#1C7C54", marginTop: 5, textAlign: "center" },
   subInfo: { fontSize: 12, color: "#808080" },
   location: { fontSize: 13, color: "#808080", marginBottom: 10 },
   tabs: { flexDirection: "row", justifyContent: "center", marginVertical: 15 },

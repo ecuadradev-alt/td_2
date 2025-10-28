@@ -18,7 +18,8 @@
         {
           "origin": "https://n"
         }
-      ]
+      ],
+      "expo-video"
     ],
     "extra": {
       "router": {

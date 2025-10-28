@@ -20,21 +20,28 @@ export default function DoctorDetailScreen() {
       title: "Asesoría legal integral",
       price: "S/ 250",
       description: "Consulta completa sobre procesos legales cannábicos.",
-      image: "https://picsum.photos/200/150?random=1",
+      image: require("../../../../assets/doctor/services/1.png"),
     },
     {
       id: "2",
       title: "Gestión de licencias",
       price: "S/ 480",
       description: "Acompañamiento en la obtención de permisos y licencias.",
-      image: "https://picsum.photos/200/150?random=2",
+      image: require("../../../../assets/doctor/services/2.png"),
     },
     {
       id: "3",
       title: "Defensa legal",
       price: "S/ 750",
       description: "Representación en casos relacionados al uso del cannabis.",
-      image: "https://picsum.photos/200/150?random=3",
+      image: require("../../../../assets/doctor/services/3.jpg"),
+    },
+     {
+      id: "4",
+      title: "Defensa legal",
+      price: "S/ 950",
+      description: "Representación en casos relacionados al uso del cannabis.",
+      image: require("../../../../assets/doctor/services/4.jpg"),
     },
   ];
 
@@ -43,11 +50,10 @@ export default function DoctorDetailScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-         <Image
-          source={require("../../../../assets/doctor/profile.jpg")}
-          style={{ width: 400, height: 300 }}
-        />
-
+          <Image
+            source={require("../../../../assets/doctor/profile.jpg")}
+            style={{ width: '80%', height: 300 }}
+          />
           <Text style={styles.name}>Lic. Carlos Herrera</Text>
           <Text style={styles.specialty}>
             Abogado especializado en derecho cannábico
@@ -106,10 +112,7 @@ export default function DoctorDetailScreen() {
             <View style={styles.servicesRow}>
               {servicios.slice(0, 2).map((item) => (
                 <View key={item.id} style={styles.serviceCard}>
-                  <Image
-                    source={{ uri: item.image }}
-                    style={styles.serviceImage}
-                  />
+                  <Image source={item.image} style={styles.serviceImage} />
                   <Text style={styles.serviceText}>{item.title}</Text>
                 </View>
               ))}
@@ -168,10 +171,7 @@ export default function DoctorDetailScreen() {
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <View style={styles.modalItem}>
-                  <Image
-                    source={{ uri: item.image }}
-                    style={styles.modalItemImage}
-                  />
+                  <Image source={item.image} style={styles.modalItemImage} />
                   <View style={{ flex: 1 }}>
                     <Text style={styles.modalItemTitle}>{item.title}</Text>
                     <Text style={styles.modalItemPrice}>{item.price}</Text>
