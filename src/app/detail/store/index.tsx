@@ -1,376 +1,300 @@
-import React from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
   Image,
   StyleSheet,
   ScrollView,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { StatusBar } from 'expo-status-bar';
-import { Ionicons } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+  TouchableOpacity,
+  Modal,
+  FlatList,
+} from "react-native";
 
-const Tab = createBottomTabNavigator();
+export default function AsociationDetailScreen() {
+  const [activeTab, setActiveTab] = useState("sobre");
+  const [modalVisible, setModalVisible] = useState(false);
 
-// Datos de ejemplo
-const selectedProducts = [
-  {
-    id: '1',
-    name: 'Producto 1',
-    rating: 4.5,
-    image: require('../../../../assets/home/asociation.png'), // o usa URL
-  },
-  {
-    id: '2',
-    name: 'Producto 2',
-    rating: 4.8,
-    image: require('../../../../assets/home/asociation.png'),
-  },
-  {
-    id: '3',
-    name: 'Producto 3',
-    rating: 4.3,
-    image: require('../../../../assets/home/asociation.png'),
-  },
-  {
-    id: '4',
-    name: 'Producto 4',
-    rating: 4.9,
-    image: require('../../../../assets/home/asociation.png'),
-  },
-];
-
-const HomeScreen = () => {
-  const renderProduct = ({ item }: { item: typeof selectedProducts[0] }) => (
-    <View style={styles.productCard}>
-      <View style={styles.productImageContainer}>
-        <View style={styles.productImagePlaceholder}>
-          <Text style={styles.productImageText}>Imagen</Text>
-        </View>
-      </View>
-      <Text style={styles.productName} numberOfLines={2}>
-        {item.name}
-      </Text>
-      <View style={styles.ratingContainer}>
-        <Ionicons name="star" size={14} color="#f39c12" />
-        <Text style={styles.ratingText}>{item.rating}</Text>
-      </View>
-      <TouchableOpacity style={styles.seeMoreButton}>
-        <Text style={styles.seeMoreText}>Ver más</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  const servicios = [
+    {
+      id: "1",
+      title: "Asesoría legal integral",
+      price: "S/ 250",
+      description: "Consulta completa sobre procesos legales cannábicos.",
+      image: "https://picsum.photos/200/150?random=1",
+    },
+    {
+      id: "2",
+      title: "Gestión de licencias",
+      price: "S/ 480",
+      description: "Acompañamiento en la obtención de permisos y licencias.",
+      image: "https://picsum.photos/200/150?random=2",
+    },
+    {
+      id: "3",
+      title: "Defensa legal",
+      price: "S/ 750",
+      description: "Representación en casos relacionados al uso del cannabis.",
+      image: "https://picsum.photos/200/150?random=3",
+    },
+  ];
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="dark" />
-
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <Ionicons name="menu" size={28} color="#333" />
-        </TouchableOpacity>
-        <View style={styles.greetingContainer}>
-          <Text style={styles.greetingTitle}>Explorar</Text>
-          <Text style={styles.greetingSubtitle}>Hola Camilo</Text>
-        </View>
-        <TouchableOpacity>
-          <View style={styles.avatarContainer}>
-            <View style={styles.avatarPlaceholder} />
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      {/* Search Bar */}
-      <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#999" style={styles.searchIcon} />
-        <TextInput
-          placeholder="Buscar asociaciones"
-          style={styles.searchInput}
-          placeholderTextColor="#bbb"
+    <View style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Header */}
+        <View style={styles.header}>
+         <Image
+          source={require("../../../../assets/doctor/profile.jpg")}
+          style={{ width: 400, height: 300 }}
         />
-      </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollContent}>
+          <Text style={styles.name}>Lic. Carlos Herrera</Text>
+          <Text style={styles.specialty}>
+            Abogado especializado en derecho cannábico
+          </Text>
+          <Text style={styles.subInfo}>C.A.L. 100470</Text>
+          <Text style={styles.location}>Lima</Text>
+        </View>
 
-        {/* Asociaciones */}
-        <Text style={styles.sectionTitle}>Asociaciones</Text>
+        {/* Tabs */}
+        <View style={styles.tabs}>
+          {["sobre", "posts", "feedbacks"].map((tab) => (
+            <TouchableOpacity
+              key={tab}
+              style={[
+                styles.tabButton,
+                activeTab === tab && styles.tabButtonActive,
+              ]}
+              onPress={() => setActiveTab(tab)}
+            >
+              <Text
+                style={[
+                  styles.tabText,
+                  activeTab === tab && styles.tabTextActive,
+                ]}
+              >
+                {tab === "sobre"
+                  ? "Sobre el Lic."
+                  : tab === "posts"
+                  ? "Posts"
+                  : "Feedbacks"}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
 
-        {/* Catálogo Card */}
-        <View style={styles.catalogCard}>
-          <View style={styles.catalogTextContainer}>
-            <Text style={styles.catalogTitle}>Catálogo de Productos</Text>
-            <Text style={styles.catalogYear}>2024</Text>
-            <Text style={styles.associationName}>El Jardín de María José</Text>
+        {/* Contenido de tabs */}
+        {activeTab === "sobre" && (
+          <View style={styles.tabContent}>
             <View style={styles.ratingContainer}>
-              <Ionicons name="star" size={16} color="#f39c12" />
-              <Text style={styles.catalogRating}>4.5</Text>
+              <Text style={styles.rating}>⭐ 4.5</Text>
+              <Text style={styles.schedule}>🕓 10:00 AM – 5:00 PM</Text>
+            </View>
+
+            <Text style={styles.sectionTitle}>Experiencia</Text>
+            <Text style={styles.description}>
+              Con más de 10 años de experiencia, he acompañado a pacientes,
+              asociaciones y emprendedores del sector cannábico en todo tipo de
+              procesos legales: desde la obtención de permisos y licencias,
+              hasta la defensa en derechos relacionados con el uso medicinal y
+              recreativo del cannabis.
+            </Text>
+
+            <Text style={[styles.sectionTitle, { marginTop: 20 }]}>
+              Servicios y productos
+            </Text>
+            <View style={styles.servicesRow}>
+              {servicios.slice(0, 2).map((item) => (
+                <View key={item.id} style={styles.serviceCard}>
+                  <Image
+                    source={{ uri: item.image }}
+                    style={styles.serviceImage}
+                  />
+                  <Text style={styles.serviceText}>{item.title}</Text>
+                </View>
+              ))}
+            </View>
+
+            <TouchableOpacity
+              style={styles.viewMoreButton}
+              onPress={() => setModalVisible(true)}
+            >
+              <Text style={styles.viewMoreText}>Ver más</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {activeTab === "posts" && (
+          <View style={styles.tabContent}>
+            <Text style={styles.sectionTitle}>Publicaciones recientes</Text>
+            <Text style={styles.description}>
+              📢 “El cannabis avanza cada día más en el ámbito legal. Mi
+              objetivo es ayudarte a comprender la normativa y usarla a tu
+              favor.”
+            </Text>
+          </View>
+        )}
+
+        {activeTab === "feedbacks" && (
+          <View style={styles.tabContent}>
+            <Text style={styles.sectionTitle}>Opiniones de clientes</Text>
+            <View style={styles.feedbackCard}>
+              <Text style={styles.feedbackUser}>Pedro Gómez ⭐⭐⭐⭐⭐</Text>
+              <Text style={styles.feedbackText}>
+                El mejor asesor que pude encontrar. Explicó todo con palabras
+                simples y me dio la seguridad que necesitaba para arrancar mi
+                proyecto.
+              </Text>
+            </View>
+            <View style={styles.feedbackCard}>
+              <Text style={styles.feedbackUser}>Carla Tello ⭐⭐⭐⭐</Text>
+              <Text style={styles.feedbackText}>
+                Excelente trato humano y mucho conocimiento. Se nota que
+                realmente le importa apoyar el movimiento cannábico desde lo
+                legal.
+              </Text>
             </View>
           </View>
-          <View style={styles.catalogImageContainer}>
-            <View style={styles.logoPlaceholder} />
+        )}
+      </ScrollView>
+
+      {/* Modal productos */}
+      <Modal visible={modalVisible} animationType="slide" transparent={true}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Todos los productos</Text>
+            <FlatList
+              data={servicios}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={styles.modalItem}>
+                  <Image
+                    source={{ uri: item.image }}
+                    style={styles.modalItemImage}
+                  />
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.modalItemTitle}>{item.title}</Text>
+                    <Text style={styles.modalItemPrice}>{item.price}</Text>
+                    <Text style={styles.modalItemDescription}>
+                      {item.description}
+                    </Text>
+                  </View>
+                </View>
+              )}
+            />
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Cerrar</Text>
+            </TouchableOpacity>
           </View>
         </View>
-
-        {/* Productos seleccionados */}
-        <Text style={styles.sectionTitle}>Productos seleccionados</Text>
-        <FlatList
-          data={selectedProducts}
-          renderItem={renderProduct}
-          keyExtractor={(item) => item.id}
-          numColumns= {2}
-          columnWrapperStyle={styles.productRow}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={false}
-        />
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-// Pantallas vacías
-const PlaceholderScreen = () => (
-  <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
-    <Text style={{ color: '#666' }}>En desarrollo</Text>
-  </View>
-);
-
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarActiveTintColor: '#4CAF50',
-          tabBarInactiveTintColor: '#aaa',
-          headerShown: false,
-          tabBarStyle: styles.tabBar,
-          tabBarShowLabel: false,
-        }}
-      >
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            tabBarIcon: ({ color }) => <Ionicons name="home" size={26} color={color} />,
-          }}
-        />
-        <Tab.Screen
-          name="Search"
-          component={PlaceholderScreen}
-          options={{
-            tabBarIcon: ({ color }) => <Ionicons name="search" size={26} color={color} />,
-          }}
-        />
-        <Tab.Screen
-          name="Favorites"
-          component={PlaceholderScreen}
-          options={{
-            tabBarIcon: ({ color }) => <Ionicons name="heart" size={26} color={color} />,
-          }}
-        />
-        <Tab.Screen
-          name="Profile"
-          component={PlaceholderScreen}
-          options={{
-            tabBarIcon: ({ color }) => <Ionicons name="person" size={26} color={color} />,
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+      </Modal>
+    </View>
   );
 }
 
-// Estilos
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8f9fa',
+  container: { flex: 1, backgroundColor: "#FFF" },
+  header: { alignItems: "center", marginTop: 20 },
+  profileImage: { width: 180, height: 180, borderRadius: 20 },
+  name: { fontSize: 20, fontWeight: "bold", marginTop: 10, color: "#1C1C1C" },
+  specialty: { fontSize: 14, color: "#1C7C54", marginTop: 5 },
+  subInfo: { fontSize: 12, color: "#808080" },
+  location: { fontSize: 13, color: "#808080", marginBottom: 10 },
+  tabs: { flexDirection: "row", justifyContent: "center", marginVertical: 15 },
+  tabButton: {
+    borderWidth: 1,
+    borderColor: "#1C7C54",
+    borderRadius: 25,
+    paddingVertical: 6,
+    paddingHorizontal: 15,
+    marginHorizontal: 5,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingTop: 12,
-    paddingBottom: 8,
-    backgroundColor: '#fff',
+  tabButtonActive: { backgroundColor: "#1C7C54" },
+  tabText: { color: "#1C7C54", fontWeight: "500" },
+  tabTextActive: { color: "#FFF", fontWeight: "500" },
+  tabContent: { paddingHorizontal: 20, paddingBottom: 40 },
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 15,
+    gap: 10,
   },
-  greetingContainer: {
-    flex: 1,
-    marginLeft: 12,
+  rating: { color: "#FF9900", fontWeight: "bold" },
+  schedule: { color: "#808080" },
+  sectionTitle: { fontSize: 16, fontWeight: "600", marginBottom: 5 },
+  description: { fontSize: 13, color: "#555", lineHeight: 18 },
+  servicesRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
   },
-  greetingTitle: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#4CAF50',
+  serviceCard: {
+    width: "48%",
+    backgroundColor: "#F8F8F8",
+    borderRadius: 10,
+    overflow: "hidden",
+    alignItems: "center",
   },
-  greetingSubtitle: {
-    fontSize: 16,
-    color: '#333',
-    fontWeight: '600',
+  serviceImage: { width: "100%", height: 100 },
+  serviceText: { padding: 8, fontSize: 13, fontWeight: "500", color: "#1C1C1C" },
+  viewMoreButton: {
+    alignSelf: "center",
+    marginTop: 15,
+    borderWidth: 1,
+    borderColor: "#1C7C54",
+    borderRadius: 25,
+    paddingHorizontal: 20,
+    paddingVertical: 6,
   },
-  avatarContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    overflow: 'hidden',
-    backgroundColor: '#eee',
-  },
-  avatarPlaceholder: {
-    flex: 1,
-    backgroundColor: '#ddd',
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    marginHorizontal: 16,
-    marginVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 12,
-    height: 48,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-  },
-  searchIcon: {
-    marginRight: 12,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 16,
-    color: '#333',
-  },
-  scrollContent: {
-    flex: 1,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#333',
-    marginLeft: 16,
-    marginTop: 20,
-    marginBottom: 12,
-  },
-  catalogCard: {
-    backgroundColor: '#fffbe6',
-    marginHorizontal: 16,
-    borderRadius: 16,
-    padding: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-  },
-  catalogTextContainer: {
-    flex: 1,
-  },
-  catalogTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#333',
-  },
-  catalogYear: {
-    fontSize: 14,
-    color: '#888',
-    marginTop: 2,
-  },
-  associationName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    marginTop: 8,
-  },
-  catalogRating: {
-    marginLeft: 6,
-    fontSize: 15,
-    color: '#f39c12',
-    fontWeight: '600',
-  },
-  catalogImageContainer: {
-    marginLeft: 16,
-  },
-  logoPlaceholder: {
-    width: 60,
-    height: 60,
-    backgroundColor: '#ffeaa7',
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: '#fff',
-  },
-  productRow: {
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-  },
-  productCard: {
-    backgroundColor: '#fff',
-    borderRadius: 14,
-    padding: 12,
-    width: '48%',
-    marginBottom: 16,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-  },
-  productImageContainer: {
-    height: 90,
+  viewMoreText: { color: "#1C7C54", fontWeight: "500" },
+  feedbackCard: {
+    backgroundColor: "#F8F8F8",
+    borderRadius: 10,
+    padding: 10,
     marginBottom: 10,
   },
-  productImagePlaceholder: {
+  feedbackUser: { fontWeight: "bold", color: "#1C7C54" },
+  feedbackText: { color: "#555", marginTop: 5, fontSize: 13 },
+  modalOverlay: {
     flex: 1,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    padding: 20,
+  },
+  modalContent: {
+    backgroundColor: "#FFF",
+    borderRadius: 15,
+    padding: 15,
+    maxHeight: "80%",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#1C7C54",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  modalItem: {
+    flexDirection: "row",
+    marginBottom: 12,
+    backgroundColor: "#F9F9F9",
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 8,
   },
-  productImageText: {
-    color: '#bbb',
-    fontSize: 12,
-  },
-  productName: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 6,
-  },
-  ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  ratingText: {
-    marginLeft: 4,
-    fontSize: 13,
-    color: '#666',
-  },
-  seeMoreButton: {
-    backgroundColor: '#4CAF50',
+  modalItemImage: { width: 70, height: 70, borderRadius: 10, marginRight: 10 },
+  modalItemTitle: { fontWeight: "600", color: "#1C1C1C" },
+  modalItemPrice: { color: "#1C7C54", fontWeight: "500" },
+  modalItemDescription: { fontSize: 12, color: "#666" },
+  closeButton: {
+    alignSelf: "center",
+    marginTop: 10,
+    backgroundColor: "#1C7C54",
+    paddingHorizontal: 25,
     paddingVertical: 8,
-    borderRadius: 8,
-    alignItems: 'center',
+    borderRadius: 20,
   },
-  seeMoreText: {
-    color: '#fff',
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  tabBar: {
-    height: 70,
-    paddingTop: 10,
-    paddingBottom: 12,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-  },
+  closeButtonText: { color: "#FFF", fontWeight: "500" },
 });

@@ -60,9 +60,6 @@ export default function FirstView() {
     <View style={[styles.dot, styles.activeDot]} />
   </TouchableOpacity>
 
-  <TouchableOpacity onPress={() => router.push('/intro/v4')}>
-    <View style={styles.dot}/>
-  </TouchableOpacity>
 </View>
 
 

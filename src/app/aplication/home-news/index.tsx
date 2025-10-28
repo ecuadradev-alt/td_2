@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const NoticiasDetalleScreen = () => {
+const HomeNewsScreen = () => {
   const newsList = [
     {
       id: '1',
@@ -190,4 +190,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NoticiasDetalleScreen;
+export default HomeNewsScreen;

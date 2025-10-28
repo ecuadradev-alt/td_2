@@ -60,9 +60,6 @@ export default function SecondView() {
     <View style={styles.dot} />
   </TouchableOpacity>
 
-  <TouchableOpacity onPress={() => router.push('/intro/v4')}>
-    <View style={styles.dot} />
-  </TouchableOpacity>
 </View>
 
 

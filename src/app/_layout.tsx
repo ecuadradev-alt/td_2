@@ -57,6 +57,10 @@ export default function RootLayout(): JSX.Element {
               name="aplication/home-app"
               options={{ headerShown: false }}
             />
+             <Stack.Screen
+              name="aplication/home-news"
+              options={{ headerShown: false }}
+            />
             <Stack.Screen
               name="aplication/doctor"
               options={{ headerShown: false }}
