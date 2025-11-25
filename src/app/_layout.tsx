@@ -61,26 +61,7 @@ export default function RootLayout(): JSX.Element {
               name="aplication/home-news"
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="aplication/doctor"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="aplication/lawyer"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="aplication/user"
-              options={{ headerShown: false }}
-            />
-              <Stack.Screen
-              name="aplication/asociation"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="aplication/store"
-              options={{ headerShown: false }}
-            />
+           
 
           {/* Rutas de autenticación */}
           {/* <Stack.Screen name="(auth)/#" options={{ headerShown: false }} /> */}

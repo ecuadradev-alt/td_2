@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,12 +7,15 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 export default function DoctoresScreen() {
   const router = useRouter();
+  const [searchModal, setSearchModal] = useState(false);
+  const [query, setQuery] = useState("");
 
   const doctores = [
     {
@@ -41,126 +44,146 @@ export default function DoctoresScreen() {
     },
   ];
 
-  const noticias = [
-    {
-      id: 1,
-      titulo: "El uso del cannabis medicinal crece en hospitales peruanos",
-      imagen: "https://cdn.pixabay.com/photo/2017/06/09/22/42/cbd-2389186_1280.jpg",
-    },
-    {
-      id: 2,
-      titulo: "Nuevas regulaciones impulsan la investigación médica en Perú",
-      imagen: "https://cdn.pixabay.com/photo/2016/11/23/14/45/doctor-1850150_1280.jpg",
-    },
-  ];
+  // 🔎 Filtrado del modal
+  const filtrados = doctores.filter((d) =>
+    d.nombre.toLowerCase().includes(query.toLowerCase()) ||
+    d.especialidad.toLowerCase().includes(query.toLowerCase())
+  );
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Header */}
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.hola}>Hola Camilo</Text>
-          <Text style={styles.titulo}>Busquemos{"\n"}un Doctor</Text>
-        </View>
-        <Image
-          source={{ uri: "https://i.pravatar.cc/100?img=68" }}
-          style={styles.avatar}
-        />
-      </View>
-
-      {/* Buscador */}
-      <View style={styles.searchContainer}>
-        <Ionicons
-          name="search-outline"
-          size={20}
-          color="#999"
-          style={styles.searchIcon}
-        />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Buscar Doctores"
-          placeholderTextColor="#999"
-        />
-      </View>
-
-      {/* Lista de Doctores */}
-      <Text style={styles.sectionTitle}>Doctores Populares</Text>
-
-      {doctores.map((doctor) => (
-        <TouchableOpacity
-          key={doctor.id}
-          style={styles.card}
-          activeOpacity={0.9}
-          // onPress={() => router.push(`/detail/doctor/${doctor.id}`)} // 👈 Navegación interna
-          onPress={() => router.push(`/detail/doctor`)} // 👈 Navegación interna
-        >
-          <Image source={{ uri: doctor.foto }} style={styles.doctorImage} />
-          <View style={styles.cardInfo}>
-            <Text style={styles.doctorName}>{doctor.nombre}</Text>
-            <Text style={styles.doctorSpecialty}>{doctor.especialidad}</Text>
-            <Text style={styles.doctorCity}>{doctor.ciudad}</Text>
+    <>
+      {/* ========================== */}
+      {/*   VISTA PRINCIPAL         */}
+      {/* ========================== */}
+      <ScrollView style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <View>
+            <Text style={styles.hola}>Hola Camilo</Text>
+            <Text style={styles.titulo}>Busquemos{"\n"}un Doctor</Text>
           </View>
-          <View style={styles.rating}>
-            <Ionicons name="star" size={16} color="#FFD700" />
-            <Text style={styles.ratingText}>{doctor.rating}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
-
-      {/* Noticias */}
-      <Text style={[styles.sectionTitle, { marginTop: 25 }]}>
-        Noticias Médicas
-      </Text>
-      {noticias.map((noticia) => (
-        <View key={noticia.id} style={styles.newsCard}>
-          <Image source={{ uri: noticia.imagen }} style={styles.newsImage} />
-          <Text style={styles.newsTitle}>{noticia.titulo}</Text>
+          <Image
+            source={{ uri: "https://i.pravatar.cc/100?img=68" }}
+            style={styles.avatar}
+          />
         </View>
-      ))}
 
-      {/* Módulo adicional */}
-      <View style={styles.extraModule}>
-        <Text style={styles.extraTitle}>Directorio Legal y Médico</Text>
-        <Text style={styles.extraDesc}>
-          Conecta con abogados, asociaciones y tiendas autorizadas. Construyamos
-          juntos una red profesional segura para el uso medicinal del cannabis.
-        </Text>
+        {/* Buscador que abre el modal */}
         <TouchableOpacity
-          style={styles.extraButton}
-          onPress={() => router.push("/directorio")}
+          onPress={() => setSearchModal(true)}
+          style={styles.searchContainer}
+          activeOpacity={0.8}
         >
-          <Ionicons name="leaf-outline" size={18} color="#fff" />
-          <Text style={styles.extraButtonText}>Explorar Directorio</Text>
+          <Ionicons name="search-outline" size={20} color="#999" />
+          <Text style={{ color: "#999", marginLeft: 6 }}>
+            Buscar Doctores...
+          </Text>
         </TouchableOpacity>
-      </View>
-    </ScrollView>
+
+        {/* Lista normal de doctores */}
+        <Text style={styles.sectionTitle}>Doctores Populares</Text>
+
+        {doctores.map((doctor) => (
+          <TouchableOpacity
+            key={doctor.id}
+            style={styles.card}
+            activeOpacity={0.9}
+            onPress={() => router.push(`/detail/doctor`)}
+          >
+            <Image source={{ uri: doctor.foto }} style={styles.doctorImage} />
+            <View style={styles.cardInfo}>
+              <Text style={styles.doctorName}>{doctor.nombre}</Text>
+              <Text style={styles.doctorSpecialty}>{doctor.especialidad}</Text>
+              <Text style={styles.doctorCity}>{doctor.ciudad}</Text>
+            </View>
+            <View style={styles.rating}>
+              <Ionicons name="star" size={16} color="#FFD700" />
+              <Text style={styles.ratingText}>{doctor.rating}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+
+      {/* ========================== */}
+      {/*   MODAL DE BÚSQUEDA       */}
+      {/* ========================== */}
+      <Modal visible={searchModal} animationType="slide">
+        <View style={styles.modalContainer}>
+          {/* Header Modal */}
+          <View style={styles.modalHeader}>
+            <TouchableOpacity onPress={() => setSearchModal(false)}>
+              <Ionicons name="arrow-back" size={26} color="#333" />
+            </TouchableOpacity>
+
+            <Text style={styles.modalTitle}>Buscar Doctor</Text>
+          </View>
+
+          {/* Input */}
+          <View style={styles.modalSearchBox}>
+            <Ionicons name="search-outline" size={20} color="#777" />
+            <TextInput
+              placeholder="Buscar por nombre o especialidad"
+              value={query}
+              onChangeText={setQuery}
+              style={styles.modalInput}
+            />
+          </View>
+
+          {/* Lista filtrada */}
+          <ScrollView style={{ marginTop: 20 }}>
+            {filtrados.map((d) => (
+              <TouchableOpacity
+                key={d.id}
+                style={styles.resultCard}
+                onPress={() => {
+                  setSearchModal(false);
+                  router.push(`/detail/doctor`);
+                }}
+              >
+                <Image source={{ uri: d.foto }} style={styles.resultImage} />
+
+                <View>
+                  <Text style={styles.resultName}>{d.nombre}</Text>
+                  <Text style={styles.resultSpec}>{d.especialidad}</Text>
+                  <Text style={styles.resultCity}>{d.ciudad}</Text>
+                </View>
+
+                <View style={styles.resultRating}>
+                  <Ionicons name="star" size={16} color="#FFD700" />
+                  <Text>{d.rating}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+
+            {filtrados.length === 0 && (
+              <Text style={styles.noResult}>No se encontraron resultados</Text>
+            )}
+          </ScrollView>
+        </View>
+      </Modal>
+    </>
   );
 }
 
+
+
 const styles = StyleSheet.create({
+  // --- PRINCIPAL ---
   container: {
-    flex: 1,
-    backgroundColor: "#f8fdfb",
     paddingTop: 50,
     paddingHorizontal: 20,
+    backgroundColor: "#f8fdfb",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
     marginBottom: 25,
   },
-  hola: {
-    color: "#00896f",
-    fontSize: 18,
-    fontWeight: "600",
-  },
+  hola: { color: "#00896f", fontSize: 18, fontWeight: "600" },
   titulo: {
     fontSize: 28,
     fontWeight: "800",
     color: "#1a3d2f",
-    marginTop: 4,
-    lineHeight: 34,
   },
   avatar: {
     width: 45,
@@ -172,78 +195,91 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#f3f4f6",
     borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+    padding: 12,
     marginBottom: 25,
   },
-  searchIcon: { marginRight: 6 },
-  searchInput: { flex: 1, fontSize: 15, color: "#333" },
+
   sectionTitle: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#333",
     marginBottom: 14,
+    color: "#333",
   },
+
   card: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
-    borderRadius: 16,
     padding: 12,
+    borderRadius: 16,
     marginBottom: 14,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
-    elevation: 2,
-    borderWidth: 1,
     borderColor: "#eaeaea",
+    borderWidth: 1,
   },
   doctorImage: { width: 70, height: 70, borderRadius: 14, marginRight: 12 },
   cardInfo: { flex: 1 },
-  doctorName: { fontSize: 16, fontWeight: "700", color: "#222" },
-  doctorSpecialty: { fontSize: 14, color: "#555", marginTop: 2 },
-  doctorCity: { fontSize: 13, color: "#777", marginTop: 4 },
+  doctorName: { fontSize: 16, fontWeight: "700" },
+  doctorSpecialty: { color: "#555" },
+  doctorCity: { color: "#777" },
+
   rating: { flexDirection: "row", alignItems: "center" },
-  ratingText: { fontSize: 13, color: "#444", marginLeft: 3 },
-  newsCard: {
+  ratingText: { marginLeft: 4 },
+
+  // --- MODAL ---
+  modalContainer: {
+    flex: 1,
+    padding: 20,
     backgroundColor: "#fff",
-    borderRadius: 14,
-    marginBottom: 16,
-    overflow: "hidden",
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    elevation: 2,
   },
-  newsImage: { width: "100%", height: 130 },
-  newsTitle: {
-    padding: 10,
-    fontSize: 15,
-    fontWeight: "600",
-    color: "#1a3d2f",
-  },
-  extraModule: {
-    backgroundColor: "#e0f7ee",
-    borderRadius: 16,
-    padding: 18,
-    marginTop: 30,
-    marginBottom: 50,
-  },
-  extraTitle: {
-    fontSize: 17,
-    fontWeight: "700",
-    color: "#10694a",
-    marginBottom: 8,
-  },
-  extraDesc: { fontSize: 14, color: "#333", marginBottom: 12 },
-  extraButton: {
+  modalHeader: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#00896f",
-    borderRadius: 10,
-    paddingVertical: 10,
+    gap: 15,
   },
-  extraButtonText: { color: "#fff", fontWeight: "600", marginLeft: 6 },
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: "700",
+  },
+
+  modalSearchBox: {
+    marginTop: 20,
+    flexDirection: "row",
+    backgroundColor: "#f3f4f6",
+    padding: 12,
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  modalInput: {
+    flex: 1,
+    marginLeft: 10,
+    fontSize: 15,
+  },
+
+  resultCard: {
+    flexDirection: "row",
+    padding: 12,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    marginBottom: 12,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#eaeaea",
+  },
+  resultImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 12,
+    marginRight: 10,
+  },
+  resultName: { fontSize: 16, fontWeight: "700" },
+  resultSpec: { color: "#555" },
+  resultCity: { color: "#777" },
+  resultRating: { marginLeft: "auto", flexDirection: "row", gap: 4 },
+
+  noResult: {
+    textAlign: "center",
+    paddingTop: 20,
+    fontSize: 16,
+    color: "#777",
+  },
 });
